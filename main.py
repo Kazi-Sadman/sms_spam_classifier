@@ -1,15 +1,29 @@
 import streamlit as st
 import pickle
 import string
+import nltk
+
+# -----------------------------
+# Download required NLTK data
+# -----------------------------
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+
 from nltk.corpus import stopwords
-import nltk
 from nltk.stem.porter import PorterStemmer
-import nltk
-nltk.download('stopwords')
 
 ps = PorterStemmer()
 
-
+# -----------------------------
+# Text preprocessing function
+# -----------------------------
 def transform_text(text):
     text = text.lower()
     text = nltk.word_tokenize(text)
@@ -34,23 +48,35 @@ def transform_text(text):
 
     return " ".join(y)
 
-tfidf = pickle.load(open('vectorizer.pkl','rb'))
-model = pickle.load(open('model.pkl','rb'))
+# -----------------------------
+# Load model and vectorizer
+# -----------------------------
+tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
+model = pickle.load(open('model.pkl', 'rb'))
 
-st.title("SMS Spam Classifier")
+# -----------------------------
+# Streamlit UI
+# -----------------------------
+st.title("📩 SMS Spam Classifier")
 
 input_sms = st.text_area("Enter the message")
 
 if st.button('Predict'):
 
-    # 1. preprocess
-    transformed_sms = transform_text(input_sms)
-    # 2. vectorize
-    vector_input = tfidf.transform([transformed_sms])
-    # 3. predict
-    result = model.predict(vector_input)[0]
-    # 4. Display
-    if result == 1:
-        st.header("Spam")
+    if input_sms.strip() == "":
+        st.warning("Please enter a message!")
     else:
-        st.header("Not Spam")
+        # Preprocess
+        transformed_sms = transform_text(input_sms)
+
+        # Vectorize
+        vector_input = tfidf.transform([transformed_sms])
+
+        # Predict
+        result = model.predict(vector_input)[0]
+
+        # Output
+        if result == 1:
+            st.error(" Spam Message")
+        else:
+            st.success(" Not Spam")

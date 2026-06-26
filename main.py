@@ -1,4 +1,6 @@
 import streamlit as st
+import numpy as np
+import pandas as pd
 import pickle
 import string
 import nltk
@@ -15,6 +17,11 @@ try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
     nltk.download('punkt')
+
+try:
+    nltk.data.find('tokenizers/punkt_tab')
+except LookupError:
+    nltk.download('punkt_tab')
 
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
@@ -66,17 +73,17 @@ if st.button('Predict'):
     if input_sms.strip() == "":
         st.warning("Please enter a message!")
     else:
-        # Preprocess
+        # 1. Preprocess
         transformed_sms = transform_text(input_sms)
 
-        # Vectorize
+        # 2. Vectorize
         vector_input = tfidf.transform([transformed_sms])
 
-        # Predict
+        # 3. Predict
         result = model.predict(vector_input)[0]
 
-        # Output
+        # 4. Output
         if result == 1:
-            st.error(" Spam Message")
+            st.error("🚨 Spam Message")
         else:
-            st.success(" Not Spam")
+            st.success("✅ Not Spam")

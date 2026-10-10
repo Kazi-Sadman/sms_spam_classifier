@@ -18,26 +18,28 @@ st.markdown("""
 <style>
     /* 1. Hide the Sidebar completely */
     [data-testid="stSidebar"] {
-        display: none;
+        display: none !important;
     }
     
     /* 2. Global Background - Dark Navy with radial glow */
     [data-testid="stAppViewContainer"] {
-        background: radial-gradient(circle at top right, #1a1b2e, #0a0a0f 60%);
-        color: white;
+        background: radial-gradient(circle at top right, #1a1b2e, #0a0a0f 60%) !important;
+        color: white !important;
     }
     
     /* 3. Center the Header Logo */
     .header-logo {
-        text-align: center;
-        font-size: 2.5rem;
-        font-weight: 900;
+        text-align: center !important;
+        margin: 0 auto !important;
+        font-size: 3rem !important;
+        font-weight: 900 !important;
         background: linear-gradient(90deg, #ffffff, #a0a0b0);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        padding-top: 20px;
-        padding-bottom: 10px;
-        letter-spacing: 1px;
+        padding-top: 30px !important;
+        padding-bottom: 10px !important;
+        letter-spacing: 1px !important;
+        display: block !important;
     }
     .header-logo span {
         background: linear-gradient(90deg, #0055ff, #00f2fe);
@@ -45,109 +47,113 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
     }
 
-    /* 4. Center the Top Navigation Tabs */
-    .stTabs {
-        width: 100%;
-    }
+    /* 4. FORCE CENTER TOP NAVIGATION TABS & MAKE THEM BIG/BOLD */
     .stTabs [data-baseweb="tab-list"] {
-        display: flex;
-        justify-content: center; /* Center tabs */
-        width: 100%;
-        gap: 40px;
-        background-color: transparent;
-        border-bottom: 1px solid #2a2a3e;
-        padding-bottom: 0px;
+        display: flex !important;
+        justify-content: center !important; /* Centers the tabs */
+        width: 100% !important;
+        gap: 50px !important; /* Space between tabs */
+        background-color: transparent !important;
+        border-bottom: 2px solid #2a2a3e !important;
+        padding-bottom: 0px !important;
+        margin-top: 20px !important;
     }
+
+    /* Individual Tab Styling */
     .stTabs [data-baseweb="tab"] {
-        height: 60px;
-        white-space: pre-wrap;
-        background-color: transparent;
-        border-radius: 0px;
-        color: #a0a0b0;
-        font-weight: 700; /* Bolder */
-        font-size: 1.1rem; /* Larger */
-        padding: 0px 10px;
-        border-bottom: 3px solid transparent;
-        transition: all 0.3s ease;
+        height: 70px !important;
+        white-space: pre-wrap !important;
+        background-color: transparent !important;
+        border-radius: 0px !important;
+        color: #a0a0b0 !important; /* Default text color */
+        font-weight: 800 !important; /* Extra bold */
+        font-size: 1.5rem !important; /* Bigger text */
+        padding: 0px 20px !important;
+        border-bottom: 4px solid transparent !important;
+        transition: all 0.3s ease !important;
     }
+
+    /* Hover effect */
     .stTabs [data-baseweb="tab"]:hover {
-        color: white;
-        border-bottom: 3px solid rgba(0, 85, 255, 0.5);
+        color: white !important;
+        border-bottom: 4px solid rgba(0, 85, 255, 0.5) !important;
     }
+
+    /* Active tab styling (Glowing effect) */
     .stTabs [aria-selected="true"] {
         color: #00f2fe !important; /* Bright Cyan */
         font-weight: 900 !important;
-        border-bottom: 3px solid #00f2fe !important;
-        text-shadow: 0px 0px 15px rgba(0, 242, 254, 0.6); /* Glowing effect */
+        border-bottom: 4px solid #00f2fe !important;
+        text-shadow: 0px 0px 20px rgba(0, 242, 254, 0.8) !important; /* Glow */
     }
-    .stTabs [data-baseweb="tab-highlight"] {
-        background-color: #00f2fe !important;
-    }
-
+    
     /* 5. Centered Hero Section */
     .hero-container { 
-        text-align: center; 
-        padding-top: 60px; 
-        padding-bottom: 60px; 
-        max-width: 900px;
-        margin: 0 auto; /* Center the container itself */
+        text-align: center !important; 
+        padding-top: 60px !important; 
+        padding-bottom: 60px !important; 
+        max-width: 900px !important;
+        margin: 0 auto !important; /* Center the container */
+        display: block !important;
     }
     .hero-badge {
-        display: inline-block; padding: 8px 20px; border-radius: 25px;
-        background-color: rgba(0, 102, 255, 0.15); border: 1px solid #0066ff;
-        color: #66b3ff; font-size: 0.9rem; font-weight: 700;
-        letter-spacing: 1.5px; margin-bottom: 30px;
-        box-shadow: 0 0 15px rgba(0, 102, 255, 0.3);
+        display: inline-block !important; padding: 8px 20px !important; border-radius: 25px !important;
+        background-color: rgba(0, 102, 255, 0.15) !important; border: 1px solid #0066ff !important;
+        color: #66b3ff !important; font-size: 0.9rem !important; font-weight: 700 !important;
+        letter-spacing: 1.5px !important; margin-bottom: 30px !important;
+        box-shadow: 0 0 15px rgba(0, 102, 255, 0.3) !important;
     }
     .hero-title { 
-        font-size: 4.5rem; 
-        font-weight: 900; 
-        line-height: 1.1; 
-        margin-bottom: 25px; 
-        color: #ffffff; 
+        font-size: 4.5rem !important; 
+        font-weight: 900 !important; 
+        line-height: 1.1 !important; 
+        margin-bottom: 25px !important; 
+        color: #ffffff !important; 
+        text-align: center !important;
     }
     .gradient-text {
-        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-        -webkit-background-clip: text; 
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0px 0px 30px rgba(0, 242, 254, 0.4);
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%) !important;
+        -webkit-background-clip: text !important; 
+        -webkit-text-fill-color: transparent !important;
+        text-shadow: 0px 0px 30px rgba(0, 242, 254, 0.4) !important;
     }
     .hero-subtitle {
-        font-size: 1.3rem; 
-        color: #b0e0ff; /* Light cyan for color */
-        max-width: 700px;
-        margin: 0 auto 40px auto; /* Centered */
-        line-height: 1.8;
-        font-weight: 500;
+        font-size: 1.3rem !important; 
+        color: #b0e0ff !important; 
+        max-width: 700px !important;
+        margin: 0 auto 40px auto !important; /* Center the text block */
+        line-height: 1.8 !important;
+        font-weight: 500 !important;
+        text-align: center !important;
     }
 
     /* 6. Buttons */
     div.stButton > button {
-        background: linear-gradient(45deg, #0055ff, #00f2fe);
-        color: white; border-radius: 10px; border: none;
-        padding: 14px 28px; font-weight: bold; font-size: 1.1rem;
-        transition: 0.3s; width: 100%;
-        box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4);
+        background: linear-gradient(45deg, #0055ff, #00f2fe) !important;
+        color: white !important; border-radius: 10px !important; border: none !important;
+        padding: 14px 28px !important; font-weight: bold !important; font-size: 1.1rem !important;
+        transition: 0.3s !important; width: 100% !important;
+        box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4) !important;
     }
     div.stButton > button:hover {
-        background: linear-gradient(45deg, #0044cc, #00c0cc);
-        box-shadow: 0 6px 20px rgba(0, 85, 255, 0.7);
-        transform: translateY(-2px);
+        background: linear-gradient(45deg, #0044cc, #00c0cc) !important;
+        box-shadow: 0 6px 20px rgba(0, 85, 255, 0.7) !important;
+        transform: translateY(-2px) !important;
     }
 
     /* 7. Metric Cards */
     .metric-card {
-        background: rgba(30, 30, 46, 0.9); padding: 2rem 1.5rem; border-radius: 15px;
-        text-align: center; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-        border: 1px solid #2a2a3e; border-top: 4px solid #FF4B4B;
-        transition: transform 0.3s ease;
+        background: rgba(30, 30, 46, 0.9) !important; padding: 2rem 1.5rem !important; border-radius: 15px !important;
+        text-align: center !important; box-shadow: 0 8px 16px rgba(0,0,0,0.4) !important;
+        border: 1px solid #2a2a3e !important; border-top: 4px solid #FF4B4B !important;
+        transition: transform 0.3s ease !important;
     }
-    .metric-card:hover { transform: translateY(-5px); }
-    .metric-card-green { border-top: 4px solid #00CC96; box-shadow: 0 8px 16px rgba(0, 204, 150, 0.1); }
-    .metric-card-blue { border-top: 4px solid #1E88E5; box-shadow: 0 8px 16px rgba(30, 136, 229, 0.1); }
-    .metric-card-purple { border-top: 4px solid #9C27B0; box-shadow: 0 8px 16px rgba(156, 39, 176, 0.1); }
-    .metric-card h3 { color: #FFFFFF; margin-bottom: 10px; font-size: 2.5rem; font-weight: 800; }
-    .metric-card p { color: #A0A0B0; margin: 0; font-size: 1rem; font-weight: 600; letter-spacing: 0.5px; }
+    .metric-card:hover { transform: translateY(-5px) !important; }
+    .metric-card-green { border-top: 4px solid #00CC96 !important; box-shadow: 0 8px 16px rgba(0, 204, 150, 0.1) !important; }
+    .metric-card-blue { border-top: 4px solid #1E88E5 !important; box-shadow: 0 8px 16px rgba(30, 136, 229, 0.1) !important; }
+    .metric-card-purple { border-top: 4px solid #9C27B0 !important; box-shadow: 0 8px 16px rgba(156, 39, 176, 0.1) !important; }
+    .metric-card h3 { color: #FFFFFF !important; margin-bottom: 10px !important; font-size: 2.5rem !important; font-weight: 800 !important; }
+    .metric-card p { color: #A0A0B0 !important; margin: 0 !important; font-size: 1rem !important; font-weight: 600 !important; letter-spacing: 0.5px !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -208,7 +214,7 @@ tfidf, model = load_models()
 # Top Logo (Centered)
 st.markdown('<div class="header-logo">📩 Spam<span>Shield</span></div>', unsafe_allow_html=True)
 
-# Navigation Tabs (Centered)
+# Navigation Tabs (Forced Center in CSS above)
 tab_dash, tab_pred, tab_batch, tab_about = st.tabs([
     "📊 Dashboard", 
     "🔍 Predict Spam", 

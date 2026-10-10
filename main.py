@@ -7,115 +7,101 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
 # ==========================================
-# 1. PAGE CONFIGURATION & CUSTOM CSS (HERO UI)
+# 1. PAGE CONFIGURATION
 # ==========================================
 st.set_page_config(page_title="SMS Spam Classifier", page_icon="📩", layout="wide")
 
-# Advanced CSS to replicate the provided StudyHub-like UI
+# ==========================================
+# 2. CUSTOM CSS (Top Navbar & Hero UI)
+# ==========================================
 st.markdown("""
 <style>
-    /* Global Background - Dark Navy with radial glow */
+    /* 1. Hide the Sidebar completely */
+    [data-testid="stSidebar"] {
+        display: none;
+    }
+    
+    /* 2. Global Background - Dark Navy with radial glow */
     [data-testid="stAppViewContainer"] {
         background: radial-gradient(circle at top right, #1a1b2e, #0a0a0f 60%);
         color: white;
     }
     
-    /* Hide default Streamlit header */
-    .stAppHeader {
-        background-color: transparent;
-    }
-
-    /* Hero Section Container */
-    .hero-container {
-        text-align: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-
-    /* Top Pill Badge */
-    .hero-badge {
-        display: inline-block;
-        padding: 6px 16px;
-        border-radius: 20px;
-        background-color: rgba(0, 102, 255, 0.1);
-        border: 1px solid #0066ff;
-        color: #66b3ff;
-        font-size: 0.8rem;
-        font-weight: 600;
-        letter-spacing: 1px;
-        margin-bottom: 25px;
-    }
-
-    /* Large Hero Title */
-    .hero-title {
-        font-size: 4rem;
+    /* 3. Top Header Logo Styling */
+    .header-logo {
+        font-size: 1.8rem;
         font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 20px;
-        color: #ffffff;
+        color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .header-logo span {
+        color: #0055ff;
     }
 
-    /* Gradient Text for the second line */
+    /* 4. Top Navigation Tabs Styling (Like the screenshot) */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 30px;
+        background-color: transparent;
+        border-bottom: 1px solid #2a2a3e;
+        padding-bottom: 0px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        white-space: pre-wrap;
+        background-color: transparent;
+        border-radius: 0px;
+        color: #a0a0b0;
+        font-weight: 500;
+        font-size: 1rem;
+        padding: 0px 10px;
+        border-bottom: 2px solid transparent;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        color: white;
+    }
+    .stTabs [aria-selected="true"] {
+        color: white !important;
+        font-weight: bold !important;
+        border-bottom: 2px solid #0055ff !important;
+    }
+    .stTabs [data-baseweb="tab-highlight"] {
+        background-color: #0055ff !important;
+    }
+
+    /* 5. Hero Section */
+    .hero-container { text-align: center; padding-top: 40px; padding-bottom: 40px; }
+    .hero-badge {
+        display: inline-block; padding: 6px 16px; border-radius: 20px;
+        background-color: rgba(0, 102, 255, 0.1); border: 1px solid #0066ff;
+        color: #66b3ff; font-size: 0.8rem; font-weight: 600;
+        letter-spacing: 1px; margin-bottom: 25px;
+    }
+    .hero-title { font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; color: #ffffff; }
     .gradient-text {
         background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-
-    /* Subtitle Text */
     .hero-subtitle {
-        font-size: 1.2rem;
-        color: #a0a0b0;
-        max-width: 600px;
-        margin: 0 auto 40px auto;
-        line-height: 1.6;
+        font-size: 1.2rem; color: #a0a0b0; max-width: 600px;
+        margin: 0 auto 40px auto; line-height: 1.6;
     }
 
-    /* Styling the Streamlit Buttons to look like the image */
+    /* 6. Buttons */
     div.stButton > button {
-        background-color: #0055ff;
-        color: white;
-        border-radius: 8px;
-        border: none;
-        padding: 12px 24px;
-        font-weight: bold;
-        font-size: 1rem;
-        transition: 0.3s;
-        width: 100%;
+        background-color: #0055ff; color: white; border-radius: 8px; border: none;
+        padding: 12px 24px; font-weight: bold; font-size: 1rem;
+        transition: 0.3s; width: 100%;
     }
     div.stButton > button:hover {
-        background-color: #0044cc;
-        box-shadow: 0 4px 15px rgba(0, 85, 255, 0.5);
+        background-color: #0044cc; box-shadow: 0 4px 15px rgba(0, 85, 255, 0.5);
     }
 
-    /* Secondary Button Style (Outlined) */
-    .secondary-btn {
-        background-color: transparent;
-        color: white;
-        border: 1px solid #444;
-        border-radius: 8px;
-        padding: 12px 24px;
-        font-weight: bold;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: 0.3s;
-        width: 100%;
-        text-align: center;
-    }
-    .secondary-btn:hover {
-        background-color: rgba(255, 255, 255, 0.05);
-        border-color: #666;
-    }
-
-    /* Metric cards styling */
+    /* 7. Metric Cards */
     .metric-card {
-        background: rgba(30, 30, 46, 0.8);
-        padding: 1.5rem;
-        border-radius: 12px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        border: 1px solid #2a2a3e;
-        border-top: 3px solid #FF4B4B;
+        background: rgba(30, 30, 46, 0.8); padding: 1.5rem; border-radius: 12px;
+        text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        border: 1px solid #2a2a3e; border-top: 3px solid #FF4B4B;
     }
     .metric-card-green { border-top: 3px solid #00CC96; }
     .metric-card-blue { border-top: 3px solid #1E88E5; }
@@ -126,7 +112,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. BACKEND LOGIC (Preprocessing & Model)
+# 3. BACKEND LOGIC (Preprocessing & Model)
 # ==========================================
 @st.cache_resource
 def download_nltk():
@@ -176,21 +162,24 @@ def load_models():
 tfidf, model = load_models()
 
 # ==========================================
-# 3. SIDEBAR NAVIGATION
+# 4. TOP NAVIGATION HEADER & TABS
 # ==========================================
-st.sidebar.image("https://img.icons8.com/color/96/000000/spam.png", width=80)
-st.sidebar.title("SMS Spam Classifier")
-st.sidebar.markdown("---")
-page = st.sidebar.radio("Navigation", ["📊 Dashboard", "🔍 Predict Spam", "📁 Batch Predict", "ℹ️ About"])
-st.sidebar.markdown("---")
-st.sidebar.info("Built with Streamlit & Scikit-Learn.\nModel: Voting Classifier (Ensemble).")
+
+# Top Logo (Left aligned)
+st.markdown('<div class="header-logo">📩 Spam<span>Shield</span></div>', unsafe_allow_html=True)
+
+# Navigation Tabs (Top aligned, just like the screenshot)
+tab_dash, tab_pred, tab_batch, tab_about = st.tabs([
+    "📊 Dashboard", 
+    "🔍 Predict Spam", 
+    "📁 Batch Predict", 
+    "ℹ️ About"
+])
 
 # ==========================================
-# 4. PAGE 1: DASHBOARD (HERO UI)
+# 5. TAB 1: DASHBOARD
 # ==========================================
-if page == "📊 Dashboard":
-    
-    # --- HERO SECTION ---
+with tab_dash:
     st.markdown("""
     <div class="hero-container">
         <div class="hero-badge">⚡ AI-POWERED SPAM DETECTION</div>
@@ -201,35 +190,20 @@ if page == "📊 Dashboard":
     </div>
     """, unsafe_allow_html=True)
 
-    # Hero Buttons (Using columns to center them)
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col2:
-        if st.button("Get Started Free →"):
-            st.session_state.page = "🔍 Predict Spam" # This would ideally switch tabs, but Streamlit limits this. 
-            st.info("👈 Please click '🔍 Predict Spam' in the sidebar to start!")
-    
-    # A visual placeholder for the secondary button (since Streamlit doesn't support secondary buttons easily)
-    st.markdown('<div style="text-align: center; margin-top: -15px; color: #666; font-size: 0.9rem;">Explore Features below</div>', unsafe_allow_html=True)
-
-    st.markdown("---")
-
-    # --- METRICS SECTION ---
     st.markdown("### 📊 Model Performance Metrics")
     
-    # UPDATED METRICS FOR VOTING CLASSIFIER
+    # UPDATED METRICS FOR STACKING CLASSIFIER
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown('<div class="metric-card"><h3>98.65%</h3><p>Accuracy</p></div>', unsafe_allow_html=True)
     with col2:
-        st.markdown('<div class="metric-card metric-card-green"><h3>100%</h3><p>Precision</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="metric-card metric-card-green"><h3>98.43%</h3><p>Precision</p></div>', unsafe_allow_html=True)
     with col3:
         st.markdown('<div class="metric-card metric-card-blue"><h3>94.73%</h3><p>F1-Score</p></div>', unsafe_allow_html=True)
     with col4:
-        st.markdown('<div class="metric-card metric-card-purple"><h3>Staking Classifier</h3><p>Model Used</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="metric-card metric-card-purple"><h3>Stacking Clf</h3><p>Model Used</p></div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    
-    # --- QUICK DEMO SECTION ---
     st.markdown("### ⚡ Quick Demo")
     st.write("Try it out right here! Enter a message to see if it's Spam or Ham.")
     
@@ -251,9 +225,9 @@ if page == "📊 Dashboard":
                 st.success("✅ **Safe Message.** This message is Not Spam.")
 
 # ==========================================
-# 5. PAGE 2: PREDICT SPAM
+# 6. TAB 2: PREDICT SPAM
 # ==========================================
-elif page == "🔍 Predict Spam":
+with tab_pred:
     st.title("🔍 Predict SMS Spam")
     st.write("Enter a message below to check if it's spam.")
 
@@ -289,9 +263,9 @@ elif page == "🔍 Predict Spam":
                 st.code(transformed_sms if transformed_sms else "[Empty - all words were stopwords or punctuation]")
 
 # ==========================================
-# 6. PAGE 3: BATCH PREDICT
+# 7. TAB 3: BATCH PREDICT
 # ==========================================
-elif page == "📁 Batch Predict":
+with tab_batch:
     st.title("📁 Batch Prediction")
     st.write("Upload a CSV file containing SMS messages to predict them in bulk.")
     st.info("The CSV file should contain a column with the text messages. You will be able to select the column name after uploading.")
@@ -332,9 +306,9 @@ elif page == "📁 Batch Predict":
                     )
 
 # ==========================================
-# 7. PAGE 4: ABOUT
+# 8. TAB 4: ABOUT
 # ==========================================
-elif page == "ℹ️ About":
+with tab_about:
     st.title("ℹ️ About This Project")
     
     st.markdown("""
@@ -345,19 +319,20 @@ elif page == "ℹ️ About":
     ### 🛠️ Tech Stack
     - **Frontend:** Streamlit (with custom CSS)
     - **Backend:** Python
-    - **Machine Learning:** Scikit-Learn (Voting Classifier - Ensemble)
+    - **Machine Learning:** Scikit-Learn (Stacking Classifier - Ensemble)
     - **NLP:** NLTK (Natural Language Toolkit)
     - **Vectorization:** TF-IDF (Term Frequency-Inverse Document Frequency)
 
     ### 🧠 How the Model Works
-    1. **Data Cleaning:** The dataset was cleaned by removing duplicate rows (403 duplicates removed, leaving 5,169 rows) and unnecessary columns. The target variable was encoded (Ham=0, Spam=1).
+    1. **Data Cleaning:** The dataset was cleaned by removing duplicate rows (403 duplicates removed, leaving 5,169 rows) and unnecessary columns.
     2. **Text Preprocessing:** Lowercase, Tokenization, Removing special characters, Removing stopwords and punctuation, PorterStemmer.
     3. **Feature Engineering:** TF-IDF Vectorizer (max_features=3000).
-    4. **Model Training:** Several models were trained and evaluated. The final deployed model is a **Voting Classifier (Soft Voting)** that combines:
+    4. **Model Training:** Several models were trained and evaluated. The final deployed model is a **Stacking Classifier** that combines:
        - Support Vector Machine (SVM)
        - Bernoulli Naive Bayes (BNB)
        - Extra Trees Classifier (ETC)
-    5. **Model Selection:** The **Staking Classifier** achieved:
+       - Meta-learner: Random Forest Classifier
+    5. **Model Selection:** The **Stacking Classifier** achieved:
        - **Accuracy:** 98.65%
        - **Precision:** 98.43%
        - **F1-Score:** 94.73%

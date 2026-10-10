@@ -1,292 +1,53 @@
-# 📩 SMS Spam Detection Using Machine Learning
-
-An end-to-end **Machine Learning** and **Natural Language Processing (NLP)** project that automatically classifies SMS messages as **Spam** or **Ham (Not Spam)**. The project covers the complete ML pipeline—from data preprocessing and feature engineering to model evaluation and deployment using **Streamlit Community Cloud**.
 
 ---
+# 📩 SMS Spam Classifier
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.20%2B-red)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.0%2B-orange)
+![NLTK](https://img.shields.io/badge/NLTK-3.8%2B-green)
+
+An end-to-end Machine Learning web application that detects whether an SMS message is **Spam** or **Ham (Not Spam)** using Natural Language Processing (NLP) and Machine Learning.
+
 
 ## 🚀 Live Demo
 
 🔗 **Streamlit App:**
 `https://smsspamclassifier-2ozcpwt4scvdrtrnvdytug.streamlit.app/`
 
----
-
-## 📖 Research Paper
-
-This project is based on our research paper:
-
-**Spam Message Detection in SMS Using Machine Learning Techniques**
-
-📌 **Status:** prepare for submit in conference.
-
----
-
-## 👥 Authors
-
-* **Kazi Sadman Zahin**
-* **Abdur Rahman Tanvir**
-* **Zannatun Nur**
-
----
-
-# 📌 Project Overview
-
-Spam SMS messages are commonly used for phishing attacks, scams, fake promotions, and fraudulent activities. Detecting these messages automatically helps improve communication security and user experience.
-
-This project uses **Machine Learning** and **Natural Language Processing (NLP)** techniques to classify SMS messages into two categories:
-
-* 📩 Ham (Legitimate Message)
-* 🚫 Spam Message
-
----
-
-# ✨ Features
-
-* 📊 Data Cleaning & Preprocessing
-* 📈 Exploratory Data Analysis (EDA)
-* 🧠 Natural Language Processing (NLP)
-* 🔤 TF-IDF Feature Extraction
-* 🤖 Multiple Machine Learning Models
-* 🏆 Ensemble Learning (Voting & Stacking)
-* 📉 Model Evaluation
-* 🌐 Streamlit Web Application
-* 💾 Model Serialization using Pickle
-
----
-
-# 🛠️ Technologies Used
-
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* NLTK
-* Matplotlib
-* Seaborn
-* Streamlit
-* Pickle
-* Git & GitHub
-
----
-
-# 📂 Dataset
-
-Dataset: **SMS Spam Collection Dataset**
-
-| Description       |     Value |
-| ----------------- | --------: |
-| Original Messages |      5572 |
-| Cleaned Messages  |      5169 |
-| Classes           | Ham, Spam |
-
----
-
-# 🔄 Machine Learning Workflow
-
-```text
-Dataset
-   │
-   ▼
-Data Cleaning
-   │
-   ▼
-Exploratory Data Analysis (EDA)
-   │
-   ▼
-Text Preprocessing
-   │
-   ▼
-TF-IDF Vectorization
-   │
-   ▼
-Train-Test Split
-   │
-   ▼
-Model Training
-   │
-   ▼
-Model Evaluation
-   │
-   ▼
-Best Model Selection
-   │
-   ▼
-Model Deployment
-```
-
----
-
-# 🧹 Data Preprocessing
-
-The following preprocessing steps were applied:
-
-* Remove unnecessary columns
-* Remove duplicate records
-* Remove null values
-* Convert labels (Ham → 0, Spam → 1)
-* Convert text to lowercase
-* Tokenization
-* Remove punctuation
-* Remove special characters
-* Remove stopwords
-* Apply stemming
-
----
-
-# 📊 Exploratory Data Analysis
-
-EDA was performed to better understand the dataset through visualization.
-
-Analysis included:
-
-* Class Distribution
-* Word Count
-* Character Count
-* Sentence Count
-* Histograms
-* Correlation Analysis
-* WordCloud
-* Most Frequent Spam Words
-* Most Frequent Ham Words
-
----
-
-# ⚙️ Feature Engineering
-
-Text data was converted into numerical features using:
-
-**TF-IDF Vectorizer**
-
-Configuration:
-
-* Maximum Features = **3000**
-
----
-
-# 🤖 Machine Learning Models
-
-The following algorithms were trained and compared:
-
-* Multinomial Naive Bayes
-* Bernoulli Naive Bayes
-* Logistic Regression
-* Support Vector Machine (SVM)
-* Random Forest
-* Voting Classifier
-* Stacking Classifier
-
----
-
-# 📈 Evaluation Metrics
-
-Models were evaluated using:
-
-* Accuracy
-* Precision
-* F1-Score
-* Confusion Matrix
-
-Since classifying a legitimate SMS as spam is undesirable, **Precision** was treated as the primary evaluation metric.
-
----
-
-# 🏆 Final Model
-
-After extensive experimentation, the **Voting Classifier** was selected as the final model because it achieved the best balance between precision and overall performance.
-
----
-
-
----
-
-# ⚙️ Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/your-username/SMS_SPAM_CLASSIFIER.git
-```
-
-Move to the project folder
-
-```bash
-cd SMS_SPAM_CLASSIFIER
-```
-
-Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Run the Streamlit application
-
-```bash
-streamlit run main.py
-```
-
----
-
-# 🖥️ Application Preview
-
-Add screenshots of your application here.
-
-```text
-screenshots/
-├── home_page.png
-├── prediction.png
-└── spam_result.png
-```
-
----
-
-# 🚀 Future Improvements
-
-* Fine-tune Transformer models (BERT)
-* Bangla SMS Spam Detection
-* REST API using FastAPI
-* Docker Containerization
-* Cloud Deployment (AWS/Azure)
-* Explainable AI (XAI)
-* Mobile-Friendly Interface
-* Real-time SMS Classification
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome!
-
-If you'd like to improve this project:
-
-1. Fork the repository.
-2. Create a new feature branch.
-3. Commit your changes.
-4. Open a Pull Request.
-
----
-
-# 🙏 Acknowledgements
-
-We sincerely thank our faculty members, mentors, and everyone who supported us throughout this project.
-
-We also acknowledge the creators of the **SMS Spam Collection Dataset** and the open-source community for providing valuable resources.
-
----
-
-# 📬 Contact
-
-**Kazi Sadman Zahin**
-
-
-* LinkedIn: https://linkedin.com/in/your-linkedin
-* Email: [kazisadman897@gmail.com](mailto:your-email@example.com)
-
----
-
-## ⭐ If you found this project helpful, please consider giving it a star on GitHub!
-
-It motivates us to continue building and sharing more AI and Machine Learning projects.
-
-```
-```
+## 📖 Overview
+This project uses the popular SMS Spam Collection Dataset. The model is trained to classify text messages into two categories: Spam (1) and Ham (0). The application features a modern, interactive user interface built with Streamlit, allowing users to test individual messages or upload a CSV file for batch predictions.
+
+## ✨ Features
+- **📊 Dashboard:** Overview of model performance metrics (Accuracy, Precision, F1-Score).
+- **🔍 Predict Spam:** Single message prediction with a confidence score and a detailed breakdown of how the text was preprocessed.
+- **📁 Batch Predict:** Upload a CSV file containing multiple SMS messages to get bulk predictions and download the results.
+- **ℹ️ About:** Detailed information about the dataset, NLP pipeline, and model selection.
+
+## 🛠️ Tech Stack
+- **Frontend:** Streamlit (with custom CSS for a modern UI)
+- **Backend:** Python
+- **Machine Learning:** Scikit-Learn, XGBoost
+- **NLP:** NLTK (Natural Language Toolkit)
+- **Data Handling:** Pandas, NumPy
+
+## 🧠 NLP & Model Pipeline
+1. **Data Cleaning:** Removed unnecessary columns, handled missing values, and removed 403 duplicate rows (5,169 final rows). Data was slightly imbalanced (4,516 Ham, 653 Spam).
+2. **Text Preprocessing:**
+   - Lowercase conversion
+   - Tokenization
+   - Removing special characters (non-alphanumeric)
+   - Removing stopwords and punctuation
+   - Stemming (PorterStemmer)
+3. **Feature Engineering:** Converted text to numerical features using **TF-IDF** (Term Frequency-Inverse Document Frequency) with `max_features=3000`.
+4. **Model Training & Evaluation:** Trained and evaluated multiple models (GaussianNB, MultinomialNB, BernoulliNB, SVC, KNN, Decision Tree, Random Forest, XGBoost, Voting, Stacking).
+5. **Final Model Selection:** **Bernoulli Naive Bayes** was chosen for deployment.
+   - **Accuracy:** 98.35%
+   - **Precision:** 99.1% (Only 1 false positive)
+   - **F1-Score:** 93.48%
+
+## 🚀 How to Run Locally
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Kazi-Sadman/sms_spam_classifier.git
+   cd sms_spam_classifier

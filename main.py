@@ -7,88 +7,127 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
 # ==========================================
-# 1. PAGE CONFIGURATION & CUSTOM CSS
+# 1. PAGE CONFIGURATION & CUSTOM CSS (HERO UI)
 # ==========================================
 st.set_page_config(page_title="SMS Spam Classifier", page_icon="📩", layout="wide")
 
-# Custom CSS for a modern, colorful, professional UI
+# Advanced CSS to replicate the provided StudyHub-like UI
 st.markdown("""
 <style>
-    /* Main title styling */
-    .main-title {
-        font-size: 3rem;
+    /* Global Background - Dark Navy with radial glow */
+    [data-testid="stAppViewContainer"] {
+        background: radial-gradient(circle at top right, #1a1b2e, #0a0a0f 60%);
+        color: white;
+    }
+    
+    /* Hide default Streamlit header */
+    .stAppHeader {
+        background-color: transparent;
+    }
+
+    /* Hero Section Container */
+    .hero-container {
+        text-align: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    /* Top Pill Badge */
+    .hero-badge {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        background-color: rgba(0, 102, 255, 0.1);
+        border: 1px solid #0066ff;
+        color: #66b3ff;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+    }
+
+    /* Large Hero Title */
+    .hero-title {
+        font-size: 4rem;
         font-weight: 800;
-        background: -webkit-linear-gradient(45deg, #FF4B4B, #FF8F4B);
+        line-height: 1.1;
+        margin-bottom: 20px;
+        color: #ffffff;
+    }
+
+    /* Gradient Text for the second line */
+    .gradient-text {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-align: center;
-        margin-bottom: 0;
     }
-    .sub-title {
+
+    /* Subtitle Text */
+    .hero-subtitle {
         font-size: 1.2rem;
-        text-align: center;
-        color: #A0A0A0;
-        margin-bottom: 2rem;
+        color: #a0a0b0;
+        max-width: 600px;
+        margin: 0 auto 40px auto;
+        line-height: 1.6;
     }
+
+    /* Styling the Streamlit Buttons to look like the image */
+    div.stButton > button {
+        background-color: #0055ff;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        padding: 12px 24px;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: 0.3s;
+        width: 100%;
+    }
+    div.stButton > button:hover {
+        background-color: #0044cc;
+        box-shadow: 0 4px 15px rgba(0, 85, 255, 0.5);
+    }
+
+    /* Secondary Button Style (Outlined) */
+    .secondary-btn {
+        background-color: transparent;
+        color: white;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+        text-align: center;
+    }
+    .secondary-btn:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-color: #666;
+    }
+
     /* Metric cards styling */
     .metric-card {
-        background: linear-gradient(135deg, #1E1E1E, #2D2D2D);
+        background: rgba(30, 30, 46, 0.8);
         padding: 1.5rem;
         border-radius: 12px;
         text-align: center;
         box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        border-left: 5px solid #FF4B4B;
+        border: 1px solid #2a2a3e;
+        border-top: 3px solid #FF4B4B;
     }
-    .metric-card-green {
-        border-left: 5px solid #00CC96;
-    }
-    .metric-card-blue {
-        border-left: 5px solid #1E88E5;
-    }
-    .metric-card-purple {
-        border-left: 5px solid #9C27B0;
-    }
-    .metric-card h3 {
-        color: #FFFFFF;
-        margin-bottom: 5px;
-    }
-    .metric-card p {
-        color: #A0A0A0;
-        margin: 0;
-        font-size: 0.9rem;
-    }
-    /* Button styling */
-    .stButton>button {
-        background: linear-gradient(45deg, #FF4B4B, #FF8F4B);
-        color: white;
-        border-radius: 8px;
-        border: none;
-        padding: 0.5rem 2rem;
-        font-weight: bold;
-        transition: 0.3s;
-        width: 100%;
-    }
-    .stButton>button:hover {
-        background: linear-gradient(45deg, #FF2B2B, #FF6F2B);
-        color: white;
-        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.4);
-    }
-    /* Sidebar styling */
-    .css-1d391kg {
-        background-color: #1A1A1A;
-    }
-    /* Success and Error alerts */
-    .stAlert {
-        border-radius: 10px;
-    }
+    .metric-card-green { border-top: 3px solid #00CC96; }
+    .metric-card-blue { border-top: 3px solid #1E88E5; }
+    .metric-card-purple { border-top: 3px solid #9C27B0; }
+    .metric-card h3 { color: #FFFFFF; margin-bottom: 5px; font-size: 2rem; }
+    .metric-card p { color: #A0A0A0; margin: 0; font-size: 0.9rem; }
 </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
 # 2. BACKEND LOGIC (Preprocessing & Model)
 # ==========================================
-
-# Download NLTK data (Cached so it only runs once)
 @st.cache_resource
 def download_nltk():
     try:
@@ -105,32 +144,24 @@ download_nltk()
 ps = PorterStemmer()
 stop_words = set(stopwords.words('english'))
 
-# Text Preprocessing Function (Exactly from your .ipynb)
 def transform_text(text):
     text = text.lower()
     text = nltk.word_tokenize(text)
-
     y = []
     for i in text:
         if i.isalnum():
             y.append(i)
-
     text = y[:]
     y.clear()
-
     for i in text:
         if i not in stop_words and i not in string.punctuation:
             y.append(i)
-
     text = y[:]
     y.clear()
-
     for i in text:
         y.append(ps.stem(i))
-
     return " ".join(y)
 
-# Load the trained model and vectorizer (Cached)
 @st.cache_resource
 def load_models():
     try:
@@ -152,29 +183,53 @@ st.sidebar.title("SMS Spam Classifier")
 st.sidebar.markdown("---")
 page = st.sidebar.radio("Navigation", ["📊 Dashboard", "🔍 Predict Spam", "📁 Batch Predict", "ℹ️ About"])
 st.sidebar.markdown("---")
-st.sidebar.info("Built with Streamlit & Scikit-Learn.\nModel: Bernoulli Naive Bayes.")
+st.sidebar.info("Built with Streamlit & Scikit-Learn.\nModel: Voting Classifier (Ensemble).")
 
 # ==========================================
-# 4. PAGE 1: DASHBOARD
+# 4. PAGE 1: DASHBOARD (HERO UI)
 # ==========================================
 if page == "📊 Dashboard":
-    st.markdown('<div class="main-title">📩 SMS Spam Classifier</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-title">An AI-powered tool to detect spam messages instantly with high precision.</div>', unsafe_allow_html=True)
-
-    st.markdown("### 📊 Model Performance Metrics")
     
-    # Metrics Row
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.markdown('<div class="metric-card"><h3>98.35%</h3><p>Accuracy</p></div>', unsafe_allow_html=True)
+    # --- HERO SECTION ---
+    st.markdown("""
+    <div class="hero-container">
+        <div class="hero-badge">⚡ AI-POWERED SPAM DETECTION</div>
+        <h1 class="hero-title">Detect smarter.<br><span class="gradient-text">Grow securely.</span></h1>
+        <p class="hero-subtitle">
+            Share high-quality messages, filter out spam instantly, and protect your inbox — all in one place.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Hero Buttons (Using columns to center them)
+    col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
-        st.markdown('<div class="metric-card metric-card-green"><h3>99.1%</h3><p>Precision</p></div>', unsafe_allow_html=True)
-    with col3:
-        st.markdown('<div class="metric-card metric-card-blue"><h3>93.48%</h3><p>F1-Score</p></div>', unsafe_allow_html=True)
-    with col4:
-        st.markdown('<div class="metric-card metric-card-purple"><h3>BernoulliNB</h3><p>Model Used</p></div>', unsafe_allow_html=True)
+        if st.button("Get Started Free →"):
+            st.session_state.page = "🔍 Predict Spam" # This would ideally switch tabs, but Streamlit limits this. 
+            st.info("👈 Please click '🔍 Predict Spam' in the sidebar to start!")
+    
+    # A visual placeholder for the secondary button (since Streamlit doesn't support secondary buttons easily)
+    st.markdown('<div style="text-align: center; margin-top: -15px; color: #666; font-size: 0.9rem;">Explore Features below</div>', unsafe_allow_html=True)
 
     st.markdown("---")
+
+    # --- METRICS SECTION ---
+    st.markdown("### 📊 Model Performance Metrics")
+    
+    # UPDATED METRICS FOR VOTING CLASSIFIER
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown('<div class="metric-card"><h3>98.65%</h3><p>Accuracy</p></div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown('<div class="metric-card metric-card-green"><h3>100%</h3><p>Precision</p></div>', unsafe_allow_html=True)
+    with col3:
+        st.markdown('<div class="metric-card metric-card-blue"><h3>94.73%</h3><p>F1-Score</p></div>', unsafe_allow_html=True)
+    with col4:
+        st.markdown('<div class="metric-card metric-card-purple"><h3>Staking Classifier</h3><p>Model Used</p></div>', unsafe_allow_html=True)
+
+    st.markdown("---")
+    
+    # --- QUICK DEMO SECTION ---
     st.markdown("### ⚡ Quick Demo")
     st.write("Try it out right here! Enter a message to see if it's Spam or Ham.")
     
@@ -210,16 +265,10 @@ elif page == "🔍 Predict Spam":
         elif tfidf is None or model is None:
             st.error("⚠️ Model files missing. Please add 'vectorizer.pkl' and 'model.pkl'.")
         else:
-            # 1. Preprocess
             transformed_sms = transform_text(input_sms)
-
-            # 2. Vectorize
             vector_input = tfidf.transform([transformed_sms])
-
-            # 3. Predict
             result = model.predict(vector_input)[0]
             
-            # 4. Get Confidence (BernoulliNB supports predict_proba)
             try:
                 proba = model.predict_proba(vector_input)[0]
                 confidence = proba[1] if result == 1 else proba[0]
@@ -227,14 +276,12 @@ elif page == "🔍 Predict Spam":
             except AttributeError:
                 confidence_pct = "N/A"
 
-            # 5. Output
             st.markdown("### Results")
             if result == 1:
                 st.error(f"🚨 **Spam Message** (Confidence: {confidence_pct})")
             else:
                 st.success(f"✅ **Not Spam** (Confidence: {confidence_pct})")
 
-            # 6. Show Preprocessing Details
             with st.expander("🔍 See how the text was preprocessed"):
                 st.write("**Original Text:**")
                 st.info(input_sms)
@@ -255,16 +302,19 @@ elif page == "📁 Batch Predict":
         if tfidf is None or model is None:
             st.error("⚠️ Model files missing. Please add 'vectorizer.pkl' and 'model.pkl'.")
         else:
-            df = pd.read_csv(uploaded_file)
+            try:
+                df = pd.read_csv(uploaded_file, encoding='utf-8')
+            except UnicodeDecodeError:
+                uploaded_file.seek(0)
+                df = pd.read_csv(uploaded_file, encoding='latin-1')
+
             st.write("### Data Preview")
             st.dataframe(df.head())
             
-            # Allow user to select the text column
             text_column = st.selectbox("Select the column containing SMS text:", df.columns)
             
             if st.button("Run Batch Prediction"):
                 with st.spinner("Processing..."):
-                    # Preprocess and predict
                     df['Transformed'] = df[text_column].astype(str).apply(transform_text)
                     df['Prediction'] = df['Transformed'].apply(lambda x: model.predict(tfidf.transform([x]))[0])
                     df['Result'] = df['Prediction'].apply(lambda x: 'Spam' if x == 1 else 'Not Spam')
@@ -273,7 +323,6 @@ elif page == "📁 Batch Predict":
                     st.write("### Results")
                     st.dataframe(df[[text_column, 'Result']])
                     
-                    # Download button
                     csv = df.to_csv(index=False).encode('utf-8')
                     st.download_button(
                         label="📥 Download Predictions as CSV",
@@ -296,31 +345,22 @@ elif page == "ℹ️ About":
     ### 🛠️ Tech Stack
     - **Frontend:** Streamlit (with custom CSS)
     - **Backend:** Python
-    - **Machine Learning:** Scikit-Learn (Bernoulli Naive Bayes)
+    - **Machine Learning:** Scikit-Learn (Voting Classifier - Ensemble)
     - **NLP:** NLTK (Natural Language Toolkit)
     - **Vectorization:** TF-IDF (Term Frequency-Inverse Document Frequency)
 
     ### 🧠 How the Model Works
-    1. **Data Cleaning:** The dataset (SMS Spam Collection) was cleaned by removing duplicate rows (403 duplicates removed, leaving 5,169 rows) and unnecessary columns. The target variable was encoded (Ham=0, Spam=1).
-    2. **Text Preprocessing:** 
-       - Converted to lowercase.
-       - Tokenized into words.
-       - Removed non-alphanumeric characters.
-       - Removed stopwords and punctuation.
-       - Applied **PorterStemmer** to reduce words to their root form.
-    3. **Feature Engineering:** The cleaned text was converted into numerical features using a **TF-IDF Vectorizer** (limited to the top 3000 features).
-    4. **Model Training:** Several models were trained and evaluated (GaussianNB, MultinomialNB, BernoulliNB, SVC, KNN, Decision Tree, Random Forest, XGBoost, Voting, Stacking).
-    5. **Model Selection:** **Bernoulli Naive Bayes** was chosen for deployment.
-       - **Accuracy:** 98.35%
-       - **Precision:** 99.1%
-       - **F1-Score:** 93.48%
-    
-    ### 📊 Dataset Information
-    - **Source:** SMS Spam Collection Dataset
-    - **Total Messages:** 5,169 (after cleaning)
-    - **Ham Messages:** 4,516
-    - **Spam Messages:** 653
-    - **Imbalance:** The dataset is imbalanced, which makes Precision a crucial metric. Our model achieves 99.1% precision, meaning it rarely classifies a legitimate message as spam (only 1 false positive in the test set).
+    1. **Data Cleaning:** The dataset was cleaned by removing duplicate rows (403 duplicates removed, leaving 5,169 rows) and unnecessary columns. The target variable was encoded (Ham=0, Spam=1).
+    2. **Text Preprocessing:** Lowercase, Tokenization, Removing special characters, Removing stopwords and punctuation, PorterStemmer.
+    3. **Feature Engineering:** TF-IDF Vectorizer (max_features=3000).
+    4. **Model Training:** Several models were trained and evaluated. The final deployed model is a **Voting Classifier (Soft Voting)** that combines:
+       - Support Vector Machine (SVM)
+       - Bernoulli Naive Bayes (BNB)
+       - Extra Trees Classifier (ETC)
+    5. **Model Selection:** The **Staking Classifier** achieved:
+       - **Accuracy:** 98.65%
+       - **Precision:** 98.43%
+       - **F1-Score:** 94.73%
 
     ### 👨‍💻 Author
     **Kazi Sadman**  

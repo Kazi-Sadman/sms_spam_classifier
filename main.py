@@ -12,75 +12,142 @@ from nltk.stem.porter import PorterStemmer
 st.set_page_config(page_title="SMS Spam Classifier", page_icon="📩", layout="wide")
 
 # ==========================================
-# 2. CUSTOM CSS (ONLY FOR NAVIGATION TABS)
+# 2. CUSTOM CSS (Centered Top Navbar & Bold UI)
 # ==========================================
 st.markdown("""
 <style>
-    /* Hide the Sidebar completely */
+    /* 1. Hide the Sidebar completely */
     [data-testid="stSidebar"] {
-        display: none !important;
+        display: none;
     }
     
-    /* Dark Background */
+    /* 2. Global Background - Dark Navy with radial glow */
     [data-testid="stAppViewContainer"] {
-        background-color: #0a0a0f !important;
-        color: white !important;
+        background: radial-gradient(circle at top right, #1a1b2e, #0a0a0f 60%);
+        color: white;
     }
     
-    /* Center the Header Logo */
+    /* 3. Center the Header Logo */
     .header-logo {
-        text-align: center !important;
-        font-size: 2.5rem !important;
-        font-weight: 800 !important;
-        color: white !important;
-        padding-top: 20px !important;
-        padding-bottom: 10px !important;
-        display: block !important;
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 900;
+        background: linear-gradient(90deg, #ffffff, #a0a0b0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        letter-spacing: 1px;
     }
     .header-logo span {
-        color: #0055ff !important;
+        background: linear-gradient(90deg, #0055ff, #00f2fe);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    /* ==========================================
-       FORCE CENTER & STYLE ONLY THE NAVIGATION TABS
-       ========================================== */
+    /* 4. Center the Top Navigation Tabs */
+    .stTabs {
+        width: 100%;
+    }
     .stTabs [data-baseweb="tab-list"] {
-        display: flex !important;
-        justify-content: center !important; /* Centers the tabs */
-        width: 100% !important;
-        gap: 40px !important; /* Space between tabs */
-        background-color: transparent !important;
-        border-bottom: 2px solid #2a2a3e !important;
-        padding-bottom: 0px !important;
-        margin-top: 10px !important;
+        display: flex;
+        justify-content: center; /* Center tabs */
+        width: 100%;
+        gap: 40px;
+        background-color: transparent;
+        border-bottom: 1px solid #2a2a3e;
+        padding-bottom: 0px;
     }
-
-    /* Individual Tab Styling (Big and Bold) */
     .stTabs [data-baseweb="tab"] {
-        height: 60px !important;
-        background-color: transparent !important;
-        border-radius: 0px !important;
-        color: #a0a0b0 !important; /* Default text color */
-        font-weight: 700 !important; /* Bold */
-        font-size: 1.3rem !important; /* Bigger text */
-        padding: 0px 15px !important;
-        border-bottom: 3px solid transparent !important;
-        transition: all 0.3s ease !important;
+        height: 60px;
+        white-space: pre-wrap;
+        background-color: transparent;
+        border-radius: 0px;
+        color: #a0a0b0;
+        font-weight: 700; /* Bolder */
+        font-size: 1.1rem; /* Larger */
+        padding: 0px 10px;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
     }
-
-    /* Hover effect */
     .stTabs [data-baseweb="tab"]:hover {
-        color: white !important;
-        border-bottom: 3px solid rgba(0, 85, 255, 0.5) !important;
+        color: white;
+        border-bottom: 3px solid rgba(0, 85, 255, 0.5);
     }
-
-    /* Active tab styling (Glowing effect) */
     .stTabs [aria-selected="true"] {
         color: #00f2fe !important; /* Bright Cyan */
         font-weight: 900 !important;
         border-bottom: 3px solid #00f2fe !important;
-        text-shadow: 0px 0px 15px rgba(0, 242, 254, 0.6) !important; /* Glow */
+        text-shadow: 0px 0px 15px rgba(0, 242, 254, 0.6); /* Glowing effect */
     }
+    .stTabs [data-baseweb="tab-highlight"] {
+        background-color: #00f2fe !important;
+    }
+
+    /* 5. Centered Hero Section */
+    .hero-container { 
+        text-align: center; 
+        padding-top: 60px; 
+        padding-bottom: 60px; 
+        max-width: 900px;
+        margin: 0 auto; /* Center the container itself */
+    }
+    .hero-badge {
+        display: inline-block; padding: 8px 20px; border-radius: 25px;
+        background-color: rgba(0, 102, 255, 0.15); border: 1px solid #0066ff;
+        color: #66b3ff; font-size: 0.9rem; font-weight: 700;
+        letter-spacing: 1.5px; margin-bottom: 30px;
+        box-shadow: 0 0 15px rgba(0, 102, 255, 0.3);
+    }
+    .hero-title { 
+        font-size: 4.5rem; 
+        font-weight: 900; 
+        line-height: 1.1; 
+        margin-bottom: 25px; 
+        color: #ffffff; 
+    }
+    .gradient-text {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0px 0px 30px rgba(0, 242, 254, 0.4);
+    }
+    .hero-subtitle {
+        font-size: 1.3rem; 
+        color: #b0e0ff; /* Light cyan for color */
+        max-width: 700px;
+        margin: 0 auto 40px auto; /* Centered */
+        line-height: 1.8;
+        font-weight: 500;
+    }
+
+    /* 6. Buttons */
+    div.stButton > button {
+        background: linear-gradient(45deg, #0055ff, #00f2fe);
+        color: white; border-radius: 10px; border: none;
+        padding: 14px 28px; font-weight: bold; font-size: 1.1rem;
+        transition: 0.3s; width: 100%;
+        box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4);
+    }
+    div.stButton > button:hover {
+        background: linear-gradient(45deg, #0044cc, #00c0cc);
+        box-shadow: 0 6px 20px rgba(0, 85, 255, 0.7);
+        transform: translateY(-2px);
+    }
+
+    /* 7. Metric Cards */
+    .metric-card {
+        background: rgba(30, 30, 46, 0.9); padding: 2rem 1.5rem; border-radius: 15px;
+        text-align: center; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        border: 1px solid #2a2a3e; border-top: 4px solid #FF4B4B;
+        transition: transform 0.3s ease;
+    }
+    .metric-card:hover { transform: translateY(-5px); }
+    .metric-card-green { border-top: 4px solid #00CC96; box-shadow: 0 8px 16px rgba(0, 204, 150, 0.1); }
+    .metric-card-blue { border-top: 4px solid #1E88E5; box-shadow: 0 8px 16px rgba(30, 136, 229, 0.1); }
+    .metric-card-purple { border-top: 4px solid #9C27B0; box-shadow: 0 8px 16px rgba(156, 39, 176, 0.1); }
+    .metric-card h3 { color: #FFFFFF; margin-bottom: 10px; font-size: 2.5rem; font-weight: 800; }
+    .metric-card p { color: #A0A0B0; margin: 0; font-size: 1rem; font-weight: 600; letter-spacing: 0.5px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -141,7 +208,7 @@ tfidf, model = load_models()
 # Top Logo (Centered)
 st.markdown('<div class="header-logo">📩 Spam<span>Shield</span></div>', unsafe_allow_html=True)
 
-# Navigation Tabs (Forced Center in CSS above)
+# Navigation Tabs (Centered)
 tab_dash, tab_pred, tab_batch, tab_about = st.tabs([
     "📊 Dashboard", 
     "🔍 Predict Spam", 
@@ -150,28 +217,34 @@ tab_dash, tab_pred, tab_batch, tab_about = st.tabs([
 ])
 
 # ==========================================
-# 5. TAB 1: DASHBOARD (Standard Content)
+# 5. TAB 1: DASHBOARD
 # ==========================================
 with tab_dash:
-    st.title("📊 Dashboard")
-    st.write("Share high-quality messages, filter out spam instantly, and protect your inbox — all in one place.")
-    st.markdown("---")
-    
-    st.subheader("Model Performance Metrics")
+    st.markdown("""
+    <div class="hero-container">
+        <div class="hero-badge">⚡ AI-POWERED SPAM DETECTION</div>
+        <h1 class="hero-title">Detect smarter.<br><span class="gradient-text">Grow securely.</span></h1>
+        <p class="hero-subtitle">
+            Share high-quality messages, filter out spam instantly, and protect your inbox — all in one place.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("### 📊 Model Performance Metrics")
     
     # UPDATED METRICS FOR STACKING CLASSIFIER
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric(label="Accuracy", value="98.65%")
+        st.markdown('<div class="metric-card"><h3>98.65%</h3><p>Accuracy</p></div>', unsafe_allow_html=True)
     with col2:
-        st.metric(label="Precision", value="98.43%")
+        st.markdown('<div class="metric-card metric-card-green"><h3>98.43%</h3><p>Precision</p></div>', unsafe_allow_html=True)
     with col3:
-        st.metric(label="F1-Score", value="94.73%")
+        st.markdown('<div class="metric-card metric-card-blue"><h3>94.73%</h3><p>F1-Score</p></div>', unsafe_allow_html=True)
     with col4:
-        st.metric(label="Model Used", value="Stacking Clf")
+        st.markdown('<div class="metric-card metric-card-purple"><h3>Stacking Clf</h3><p>Model Used</p></div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    st.subheader("⚡ Quick Demo")
+    st.markdown("### ⚡ Quick Demo")
     st.write("Try it out right here! Enter a message to see if it's Spam or Ham.")
     
     quick_input = st.text_area("Enter an SMS message:", height=100, placeholder="e.g., WINNER!! As a valued network customer you have been selected to receive a £900 prize reward!")
@@ -217,7 +290,7 @@ with tab_pred:
             except AttributeError:
                 confidence_pct = "N/A"
 
-            st.subheader("Results")
+            st.markdown("### Results")
             if result == 1:
                 st.error(f"🚨 **Spam Message** (Confidence: {confidence_pct})")
             else:
@@ -249,7 +322,7 @@ with tab_batch:
                 uploaded_file.seek(0)
                 df = pd.read_csv(uploaded_file, encoding='latin-1')
 
-            st.subheader("Data Preview")
+            st.write("### Data Preview")
             st.dataframe(df.head())
             
             text_column = st.selectbox("Select the column containing SMS text:", df.columns)
@@ -261,7 +334,7 @@ with tab_batch:
                     df['Result'] = df['Prediction'].apply(lambda x: 'Spam' if x == 1 else 'Not Spam')
                     
                     st.success("✅ Prediction Complete!")
-                    st.subheader("Results")
+                    st.write("### Results")
                     st.dataframe(df[[text_column, 'Result']])
                     
                     csv = df.to_csv(index=False).encode('utf-8')

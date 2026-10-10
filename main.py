@@ -1,10 +1,3 @@
-
----
-
-### 🎨 2. Updated `main.py` (Frontend + Backend)
-This is a single-file application. It includes your exact Jupyter Notebook preprocessing logic, loads your `.pkl` files, and provides a colorful, professional UI with the new **About** section.
-
-```python
 import streamlit as st
 import nltk
 import string
